@@ -21,7 +21,6 @@ module.exports = function (opts) {
     name: 'rtc',
     server: function (onConnect) {
       serverOnConnect = onConnect
-      console.log(onConnect)
 
       return closeServer
     },
@@ -112,13 +111,13 @@ module.exports = function (opts) {
 
       stream.address = 'rtc:' + server.remoteAddress + ':' + server.remotePort
       stream.protocol = 'rtc'
-      stream.hub = URL.parse(hubUrl).hostname //this is yuck. Because of multiserver address pattern we need to prune off https. This is one place to do it but a bit fragile
+      stream.hub = URL.parse(hubUrl).hostname // this is yuck. Because of multiserver address pattern we need to prune off https. This is one place to do it but a bit fragile
 
       serverOnConnect(stream)
       hub.close()
       hub = Hub(hubUrl)
 
-      //avoid stack overflow
+      // avoid stack overflow
       setTimeout(() => {
         CreateServerPeer(hubAddress, opts)
       }, 1)
